@@ -45,7 +45,7 @@ export const login = async (req: Request, res: Response) => {
 
     res
       .cookie("token", token, {
-        sameSite: "lax",
+        sameSite: "none",
         httpOnly: true,
         secure: true,
         expires: new Date(Date.now() + 60 * 60 * 1000),
