@@ -1,6 +1,10 @@
 import { Request, Response } from "express";
 import User from "../models/User";
 import bcrypt from "bcrypt";
+import { sign, verify } from "jsonwebtoken";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 // Login handler
 export const login = async (req: Request, res: Response) => {
@@ -29,12 +33,27 @@ export const login = async (req: Request, res: Response) => {
       return;
     }
 
-    // Success response
-    res.json({
-      success: true,
-      message: "Login successful",
-      user: { email: user.email },
+    const payload = {
+      email: user.email,
+    };
+
+    const JWT_SECRET = process.env.JWT_SECRET || "secret";
+
+    const token = sign(payload, JWT_SECRET, {
+      expiresIn: "72h",
     });
+
+    res
+      .cookie("token", token, {
+        sameSite: "lax",
+        httpOnly: true,
+        secure: true,
+        expires: new Date(Date.now() + 60 * 60 * 1000),
+      })
+      .json({
+        success: true,
+        message: "Login successful",
+      });
 
     return;
   } catch (error) {
@@ -46,7 +65,7 @@ export const login = async (req: Request, res: Response) => {
 
 // Signup Handler
 export const signup = async (req: Request, res: Response) => {
-  const { email, password }: { email: string; password: string } = req.body;
+  const { email, password } = req.body;
 
   // Check if user exists
   const userExists = await User.findOne({ email });
@@ -73,4 +92,30 @@ export const signup = async (req: Request, res: Response) => {
     res.status(500).json({ success: false, error: "Error creating user" });
     return;
   }
+};
+
+// Authenticate Handler
+export const authenticate = async (req: Request, res: Response) => {
+  const { token } = req.cookies;
+
+  if (!token) {
+    res.status(404).json({ success: false });
+    return;
+  }
+
+  const verified = verify(token, process.env.JWT_SECRET || "");
+
+  if (verified) {
+    res.status(200).json({ success: true });
+    return;
+  } else {
+    res.status(200).json({ success: false });
+    return;
+  }
+};
+
+export const logout = async (req: Request, res: Response) => {
+  res.clearCookie("token");
+  res.status(200).json({ success: true });
+  return;
 };

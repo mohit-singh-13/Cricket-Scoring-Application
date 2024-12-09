@@ -2,8 +2,7 @@ import { useEffect, useState } from "react";
 
 const useSocket = () => {
   const URL = process.env.NEXT_PUBLIC_BE_URL || "";
-  // console.log(URL)
-
+  
   const [socket, setSocket] = useState<WebSocket | null>(null);
 
   useEffect(() => {

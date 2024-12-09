@@ -1,6 +1,10 @@
 import { Router } from "express";
-import { deleteScore, getScore, updateScore } from "../controllers/scoreBoardController";
-import { createScoreboard } from "../controllers/createBoardController";
+import {
+  createScoreboard,
+  deleteScore,
+  getScore,
+  updateScore,
+} from "../controllers/scoreBoardController";
 
 const router = Router();
 

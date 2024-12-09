@@ -6,6 +6,7 @@ import { WebSocketServer } from "ws";
 import authRouter from "./routes/auth";
 import scoreRouter from "./routes/scoreboardRoutes";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 
 dotenv.config();
 
@@ -22,8 +23,16 @@ wss.on("connection", (ws) => {
   });
 });
 
-app.use(cors());
+const corsOptions = {
+  origin: "http://localhost:3000",
+  methods: ["GET", "POST", "DELETE"],
+  credentials: true,
+  allowedHeaders: ["Content-Type", "Authorization"],
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
+app.use(cookieParser());
 
 // Auth Routes
 app.use("/api/auth", authRouter);

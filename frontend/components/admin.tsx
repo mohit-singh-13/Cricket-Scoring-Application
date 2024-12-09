@@ -3,7 +3,9 @@
 import axios from "axios";
 import Button from "@/components/button";
 import FetchScore from "./fetchScore";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import Navbar from "./navbar";
+import { useRouter } from "next/navigation";
 
 export interface BatsmanStats {
   name: string;
@@ -35,8 +37,31 @@ export default function AdminPanel() {
     setNoGame(true);
   }, []);
 
+  const router = useRouter();
+
+  const authenticate = useCallback(async () => {
+    try {
+      await axios.get(
+        `${process.env.NEXT_PUBLIC_BE_URL}/api/auth/authenticate`,
+        {
+          withCredentials: true,
+        }
+      );
+    } catch (err) {
+      console.log(err);
+      router.push("/");
+    }
+  }, [router]);
+
+  useEffect(() => {
+    authenticate();
+  }, [authenticate]);
+
   return (
     <div className="w-[650px] h-full border mx-auto py-6 px-2 bg-slate-50">
+      <div>
+        <Navbar />
+      </div>
       <FetchScore commentry={false} noGame={noGame} toggleGame={toggleGame} />
 
       <h4 className="text-center font-bold text-2xl my-8">Update Score:</h4>

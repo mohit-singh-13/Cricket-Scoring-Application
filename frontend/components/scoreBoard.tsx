@@ -21,6 +21,22 @@ interface ScoreboardProps {
   currentBatsman: number;
 }
 
+interface scoreProps {
+  title: string;
+  value1: number | string;
+  value2: number | string;
+}
+
+const Score = ({ title, value1, value2 }: scoreProps) => {
+  return (
+    <div className="space-y-2">
+      <p className="text-xl font-bold">{title}</p>
+      <p className="text-[1rem] font-semibold">{value1}</p>
+      <p className="text-[1rem] font-semibold">{value2}</p>
+    </div>
+  );
+};
+
 const Scoreboard = ({
   teamScore,
   batsmanStats1,
@@ -52,39 +68,23 @@ const Scoreboard = ({
             </span>
           </p>
         </div>
-
-        <div className="space-y-2">
-          <p className="text-xl font-bold">Runs</p>
-          <p className="text-[1rem] font-semibold">{batsmanStats1.runs}</p>
-          <p className="text-[1rem] font-semibold">{batsmanStats2.runs}</p>
-        </div>
-
-        <div className="space-y-2">
-          <p className="text-xl font-bold">Balls</p>
-          <p className="text-[1rem] font-semibold">{batsmanStats1.balls}</p>
-          <p className="text-[1rem] font-semibold">{batsmanStats2.balls}</p>
-        </div>
+        
+        <Score
+          title="Runs"
+          value1={batsmanStats1.runs}
+          value2={batsmanStats2.runs}
+        />
+        <Score
+          title="Balls"
+          value1={batsmanStats1.balls}
+          value2={batsmanStats2.balls}
+        />
       </div>
       <div className="grid grid-cols-4 text-center mt-8 border rounded-md bg-gray-300 py-4">
-        <div className="space-y-2">
-          <p className="text-xl font-bold">Bowler</p>
-          <p className="text-[1rem] font-semibold">{bowlerStats.name}</p>
-        </div>
-
-        <div className="space-y-2">
-          <p className="text-xl font-bold">Overs</p>
-          <p className="text-[1rem] font-semibold">{bowlerStats.overs}</p>
-        </div>
-
-        <div className="space-y-2">
-          <p className="text-xl font-bold">Wickets</p>
-          <p className="text-[1rem] font-semibold">{bowlerStats.wickets}</p>
-        </div>
-
-        <div className="space-y-2">
-          <p className="text-xl font-bold">Runs</p>
-          <p className="text-[1rem] font-semibold">{bowlerStats.runs}</p>
-        </div>
+        <Score title="Bowler" value1={bowlerStats.name} value2={""} />
+        <Score title="Overs" value1={bowlerStats.overs} value2={""} />
+        <Score title="Wickets" value1={bowlerStats.wickets} value2={""} />
+        <Score title="Runs" value1={bowlerStats.runs} value2={""} />
       </div>
     </div>
   );

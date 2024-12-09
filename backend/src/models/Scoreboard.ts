@@ -15,7 +15,7 @@ const bowlerSchema = new Schema({
 
 const scoreboardSchema = new Schema({
   teamScore: { type: Number, default: 0 },
-  currentBatsman: { type: Number, required: true, default: 0 }, // Index of the current batsman
+  currentBatsman: { type: Number, required: true, default: 0 },
   batsmen: [batsmanSchema],
   bowlers: [bowlerSchema],
   deliveries: { type: Number, default: 0 },

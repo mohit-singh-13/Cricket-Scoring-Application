@@ -52,7 +52,7 @@ const FetchScore = ({
   const fetchData = useCallback(async () => {
     try {
       await axios.get(
-        `${process.env.NEXT_PUBLIC_BE_URL}/api/score/getScore` || ""
+        `${process.env.NEXT_PUBLIC_BE_URL}/api/score/getScore`
       );
     } catch (err) {
       console.log(err);
@@ -64,7 +64,6 @@ const FetchScore = ({
     if (!socket) return;
     socket.onmessage = (message) => {
       const data = JSON.parse(message.data);
-      console.log(data);
       setTeamScore(data.teamScore);
       setCommentary(data.commentary);
       setBatsmanStats1({
