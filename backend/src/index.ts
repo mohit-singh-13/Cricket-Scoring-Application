@@ -24,7 +24,7 @@ wss.on("connection", (ws) => {
 });
 
 const corsOptions = {
-  origin: "http://localhost:3000",
+  origin: "https://cricket-scoring-application.vercel.app",
   methods: ["GET", "POST", "DELETE"],
   credentials: true,
   allowedHeaders: ["Content-Type", "Authorization"],
